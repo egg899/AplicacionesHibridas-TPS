@@ -169,7 +169,7 @@
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                displayGuitarists([data]); // Display as an array for consistency
+                displayGuitarists(data); // Display as an array for consistency
             } catch (error) {
                 document.getElementById('error-message').textContent = 'Error fetching guitarist by ID: ' + error.message;
             }
@@ -281,26 +281,33 @@ async function updateGuitarist() {
 
         //Eliminar guitarrista
         async function deleteGuitarist() {
-    const id = document.getElementById('delete-guitarist-id').value;
-    const token = localStorage.getItem('token');
+            const id = document.getElementById('delete-guitarist-id').value;
+            const token = localStorage.getItem('token');
 
     try {
         const response = await fetch(`http://localhost:3000/guitarristas/${id}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}` // Include the token in the headers
-            }
+            },
+            
+            
         });
-
+       
+        alert('Guitarrista eliminado exitosamente!');
+        fetchAllGuitarists();
         if (!response.ok) {
             throw new Error('Failed to delete guitarist: ' + response.statusText);
         }
-
-        alert('Guitarrista eliminado exitosamente!');
-        fetchAllGuitarists();
+        
+        
     } catch (error) {
         document.getElementById('error-message').textContent = error.message;
     }
+
+
+
+   
 }
 
 
